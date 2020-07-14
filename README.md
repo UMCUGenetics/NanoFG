@@ -1,5 +1,5 @@
 # NanoFG
-
+Forked to add additional features for compatibility with Sniffles and GRCh38. See below original README
 ##### NanoFG integrates existing genomic tools and additonal code to provide an easy-to-use pipeline for the detection of fusion genes from Nanopore sequencing data
 
 ## INSTALL
