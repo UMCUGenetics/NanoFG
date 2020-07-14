@@ -464,12 +464,12 @@ if [ $DONT_FILTER = false ];then
   echo -e "`date` \t Removing insertions and all variants without a PASS filter..."
   VCF_FILTERED=${VCF_FILTERED/.vcf/_noINS_PASS.vcf}
   grep "^#" $VCF > $VCF_FILTERED
-  grep -v "^#" $VCF | awk '$5!="<INS>"' | awk '$7=="PASS"' >> $VCF_FILTERED
+  grep -v "^#" $VCF | awk '$5!="<INS>"' | grep -v "SVTYPE=INS" | awk '$7=="PASS"' >> $VCF_FILTERED
 else
   echo -e "`date` \t Removing insertions..."
   VCF_FILTERED=${VCF_FILTERED/.vcf/_noINS.vcf}
   grep "^#" $VCF > $VCF_FILTERED
-  grep -v "^#" $VCF | awk '$5!="<INS>"' >> $VCF_FILTERED
+  grep -v "^#" $VCF | grep -v "SVTYPE=INS" | awk '$5!="<INS>"' >> $VCF_FILTERED
 fi
 
 ##################################################  EXTRACTION OF READS THAT SUPPORT POSSIBLE FUSION-GENERATING SVS, BASED ON ORIENTATION AND STRAND COMBINATION
@@ -581,17 +581,17 @@ if [ $DONT_FILTER = false ];then
   SV_CALLING_OUT_FILTERED=${SV_CALLING_OUT/.vcf/_noINS_PASS.vcf}
   echo -e "`date` \t Removing insertions and all variants without a PASS filter..."
   grep "^#" $SV_CALLING_OUT > $SV_CALLING_OUT_FILTERED
-  grep -v "^#" $SV_CALLING_OUT | awk '$5!="<INS>"' | awk '$7=="PASS"' >> $SV_CALLING_OUT_FILTERED
+  grep -v "^#" $SV_CALLING_OUT | awk '$5!="<INS>"' | grep -v "SVTYPE=INS" | awk '$7=="PASS"' >> $SV_CALLING_OUT_FILTERED
 else
   SV_CALLING_OUT_FILTERED=${SV_CALLING_OUT/.vcf/_noINS.vcf}
   echo -e "`date` \t Removing insertions..."
   grep "^#" $SV_CALLING_OUT > $SV_CALLING_OUT_FILTERED
-  grep -v "^#" $SV_CALLING_OUT | awk '$5!="<INS>"' >> $SV_CALLING_OUT_FILTERED
+  grep -v "^#" $SV_CALLING_OUT | awk '$5!="<INS>" | grep -v "SVTYPE=INS"' >> $SV_CALLING_OUT_FILTERED
 fi
 
 ################################################### COMBINING SVS ON THE SAME READ FOR THE DETECTION OF COMPLEX FUSIONS
 echo -e "`date` \t Linking and combining SVs for complex fusion detection"
-VCF_COMPLEX=./complex.vcf
+VCF_COMPLEX=${SV_CALLING_OUT_FILTERED/.vcf/complexSVs.vcf}
 
 python $SCRIPT_DIR/CombineSVs.py \
 -v $SV_CALLING_OUT_FILTERED \
