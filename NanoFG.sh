@@ -591,7 +591,7 @@ fi
 
 ################################################### COMBINING SVS ON THE SAME READ FOR THE DETECTION OF COMPLEX FUSIONS
 echo -e "`date` \t Linking and combining SVs for complex fusion detection"
-VCF_COMPLEX=${SV_CALLING_OUT_FILTERED/.vcf/complexSVs.vcf}
+VCF_COMPLEX=${SV_CALLING_OUT_FILTERED/.vcf/_complexSVs.vcf}
 
 python $SCRIPT_DIR/CombineSVs.py \
 -v $SV_CALLING_OUT_FILTERED \

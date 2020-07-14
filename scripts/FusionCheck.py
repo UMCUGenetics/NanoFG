@@ -215,7 +215,7 @@ def alt_convert( record ):
 
 #############################################   Gather all information about genes that overlap with a single breakend   #############################################
 def ensembl_annotation(CHROM, POS):
-    server='http://grch37.rest.ensembl.org'
+    server='http://rest.ensembl.org'
     endpoint="/overlap/region/human/"+str(CHROM)+":"+str(POS)+"-"+str(POS)
     headers={"Content-Type" : "application/json"}
     params={"feature": "transcript"}
@@ -682,7 +682,7 @@ def breakpoint_annotation(Record, Breakend1, Breakend2, Orientation1, Orientatio
 
 #################################   Gather information about the domains of the genes involved in the fusion   #########################################
 def get_domains(protein_id, coding_exons, relative_length, intron_relative_length):
-    server='http://grch37.rest.ensembl.org'
+    server='http://rest.ensembl.org'
     endpoint="/overlap/translation/"+protein_id
     headers={"Content-Type" : "application/json"}
     ensembl_domains=EnsemblRestClient.perform_rest_action(server, endpoint, headers)
